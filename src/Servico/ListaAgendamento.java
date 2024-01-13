@@ -1,15 +1,8 @@
-
-/*OBS: parai na criação do map para listaagendamento, pois o agendamento tambem tem que ter enumeração*/
-
 package Servico;
 
-import java.rmi.AccessException;
-import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -17,17 +10,16 @@ import java.util.TreeMap;
 import clinica_de_agendamento.Paciente;
 
 public class ListaAgendamento {
+	Scanner sc = new Scanner(System.in);
 	private Paciente paciente;
 	private LocalDateTime dataAgendamento;
-
-	Map<Integer, Paciente> listaPaciente = new TreeMap();
-	ListaAgendamento agendamento;
-	Map<Integer, ListaAgendamento> listaAgendamentoTeste = new TreeMap();
-	ArrayList<ListaAgendamento> listaAgendamento = new ArrayList();
-
-	DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 	int chave = 1;
 	int chaveAgendamento = 1;
+	DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+	Map<Integer, Paciente> listaPaciente = new TreeMap<Integer, Paciente>();
+	ListaAgendamento agendamento;
+	Map<Integer, ListaAgendamento> listaAgendamento = new TreeMap<Integer, ListaAgendamento>();
 
 	public ListaAgendamento() {
 	}
@@ -51,12 +43,12 @@ public class ListaAgendamento {
 		listaPaciente.put(chave, p);
 		chave++;
 		System.out.println("Paciente cadastado!");
+		System.out.println();
 	}
 
 	public void mostraPaciente() {
 		if (listaPaciente.isEmpty()) {
-			System.out.println("Lista vazia!");
-
+			System.out.println("Lista de paciente vazia!");
 		} else {
 			System.out.println("Lista de pacientes cadastrados: ");
 			for (Integer key : listaPaciente.keySet()) {
@@ -79,7 +71,6 @@ public class ListaAgendamento {
 	}
 
 	public void agendamento() {
-		Scanner sc = new Scanner(System.in);
 		mostraPaciente();
 		System.out.println("Escolha o numero do paciente para marcar agendamento: ");
 		int escolha = sc.nextInt();
@@ -90,19 +81,18 @@ public class ListaAgendamento {
 		} else {
 			System.out.print("Insira a data da consulta: (dd/MM/yyyy HH:mm): ");
 			dataAgendamento = LocalDateTime.parse(sc.nextLine(), fmt);
-			Date date = new Date();
-			LocalDateTime dateTestes = LocalDateTime.now();
-			if (dataAgendamento.isBefore(dateTestes)) {
+			LocalDateTime dateAtual = LocalDateTime.now();
+			if (dataAgendamento.isBefore(dateAtual)) {
 				System.err.println("Não é possivel agendar datas retroativas!");
-				return;
 			} else {
 				if (verificaAgendamentoDuplicado() == false) {
 					System.out.println("Consulta já agendada para esse horário!");
 				} else {
 					agendamento = new ListaAgendamento(listaPaciente.get(escolha), dataAgendamento);
-					listaAgendamentoTeste.put(chaveAgendamento, agendamento);
+					listaAgendamento.put(chaveAgendamento, agendamento);
 					chaveAgendamento++;
-					listaAgendamento.add(agendamento);
+					System.out.println("Consulta agendada com sucesso!");
+
 				}
 			}
 
@@ -110,15 +100,34 @@ public class ListaAgendamento {
 	}
 
 	public void mostraAgendamento() {
-		if (listaAgendamentoTeste.isEmpty()) {
-			System.out.println("Lista vazia!");
+		if (listaAgendamento.isEmpty()) {
+			System.out.println("Lista de agendamento vazia!");
 
 		} else {
 			for (Integer key : listaPaciente.keySet()) {
-				System.out.println(key + ":" + listaAgendamentoTeste.get(key));
+				System.out.println(key + ":" + listaAgendamento.get(key));
 			}
 		}
 
+	}
+
+	public void cancelaAgendamento() {
+
+		if (listaAgendamento.isEmpty()) {
+			System.out.println("Não há pacientes agendados!");
+		} else {
+			mostraAgendamento();
+			System.out.println("Escolha o numero do paciente para cancelar o agendamento");
+			int escolha = sc.nextInt();
+			for (Integer key : listaPaciente.keySet()) {
+				if(key.equals(escolha)) {
+					listaAgendamento.remove(escolha, agendamento);
+					System.out.println("Consulta cancelada!");
+					return;
+				}
+			}
+			System.out.println("Não há numero de agendamento com o qual foi especificado!");
+		}
 	}
 
 	@Override

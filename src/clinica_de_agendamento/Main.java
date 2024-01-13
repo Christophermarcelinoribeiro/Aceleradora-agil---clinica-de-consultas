@@ -10,7 +10,7 @@ public class Main {
 	public static void menu() {
 		System.out.println("1 - Cadastrar paciente");
 		System.out.println("2 - Marcar consulta");
-		System.out.println(" ");
+		System.out.println("3 - Cancelar consulta");
 	}
 
 	public static void main(String[] args) throws ParseException {
@@ -44,35 +44,16 @@ public class Main {
 				l.cadastroPaciente(p);
 
 			}
-			case 2 -> {
-				l.agendamento();
+			case 2 -> l.agendamento();
+			case 3 -> {
+				l.cancelaAgendamento();
 				l.mostraAgendamento();
 			}
 
 			}
 
-			/*
-			 * l.cadastroPaciente(p); l.verificaCadastroDuplicado(telefone);
-			 * l.cadastroPaciente(p1);
-			 * 
-			 * l.agendamento();
-			 * 
-			 * System.out.println();
-			 * 
-			 * l.mostraAgendamento();
-			 * 
-			 * System.out.println();
-			 * 
-			 * l.agendamento();
-			 * 
-			 * l.mostraAgendamento();
-			 * 
-			 * System.out.println();
-			 */
-
-			// p.MostraPaciente();
-			
 		}
+		sc.close();
 	}
 
 }
