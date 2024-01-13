@@ -13,7 +13,7 @@ public class Paciente {
 	int chave = 1;
 
 	
-	Map<Integer,Paciente> listaPaciente = new TreeMap();
+	//Map<Integer,Paciente> listaPaciente = new TreeMap();
 
 	public Paciente(String nome, String telefone,String especialidade) {
 		this.nome = nome;

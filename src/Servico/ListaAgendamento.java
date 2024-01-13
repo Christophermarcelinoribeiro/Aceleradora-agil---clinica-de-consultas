@@ -5,9 +5,11 @@ package Servico;
 
 import java.rmi.AccessException;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -88,14 +90,20 @@ public class ListaAgendamento {
 		} else {
 			System.out.print("Insira a data da consulta: (dd/MM/yyyy HH:mm): ");
 			dataAgendamento = LocalDateTime.parse(sc.nextLine(), fmt);
-
-			if (verificaAgendamentoDuplicado() == false) {
-				System.out.println("Consulta já agendada para esse horário!");
+			Date date = new Date();
+			LocalDateTime dateTestes = LocalDateTime.now();
+			if (dataAgendamento.isBefore(dateTestes)) {
+				System.err.println("Não é possivel agendar datas retroativas!");
+				return;
 			} else {
-				agendamento = new ListaAgendamento(listaPaciente.get(escolha), dataAgendamento);
-				listaAgendamentoTeste.put(chaveAgendamento, agendamento);
-				chaveAgendamento++;
-				listaAgendamento.add(agendamento);
+				if (verificaAgendamentoDuplicado() == false) {
+					System.out.println("Consulta já agendada para esse horário!");
+				} else {
+					agendamento = new ListaAgendamento(listaPaciente.get(escolha), dataAgendamento);
+					listaAgendamentoTeste.put(chaveAgendamento, agendamento);
+					chaveAgendamento++;
+					listaAgendamento.add(agendamento);
+				}
 			}
 
 		}
@@ -115,6 +123,6 @@ public class ListaAgendamento {
 
 	@Override
 	public String toString() {
-		return  paciente.getNome() + " / Data: " + dataAgendamento.format(fmt);
+		return paciente.getNome() + " / Data: " + dataAgendamento.format(fmt);
 	}
 }
