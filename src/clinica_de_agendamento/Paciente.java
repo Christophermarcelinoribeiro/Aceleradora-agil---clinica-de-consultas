@@ -1,8 +1,5 @@
 package clinica_de_agendamento;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class Paciente {
 
@@ -10,20 +7,17 @@ public class Paciente {
 	private String telefone;
 	private String especialidade;
 	
-	int chave = 1;
 
-	
-	//Map<Integer,Paciente> listaPaciente = new TreeMap();
-
-	public Paciente(String nome, String telefone,String especialidade) {
+	public Paciente(String nome, String telefone) {
 		this.nome = nome;
 		this.telefone = telefone;
-		this.especialidade = especialidade;
 	}
+
 
 	public String getNome() {
 		return nome;
 	}
+
 
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -33,15 +27,24 @@ public class Paciente {
 		return telefone;
 	}
 
+
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 
-	
+
+	public String getEspecialidade() {
+		return especialidade;
+	}
+
+	public void setEspecialidade(String especialidade) {
+		this.especialidade = especialidade;
+	}
+
 
 	@Override
 	public String toString() {
-		return nome + " / Telefone: " + telefone + "/ Especialidade: " + especialidade;
+		return nome + " / Telefone: " + telefone;
 	}
 
 }

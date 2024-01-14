@@ -8,9 +8,14 @@ import Servico.ListaAgendamento;
 
 public class Main {
 	public static void menu() {
+		
+		System.out.println("0 - Sair");
 		System.out.println("1 - Cadastrar paciente");
 		System.out.println("2 - Marcar consulta");
 		System.out.println("3 - Cancelar consulta");
+		System.out.println("4 - Consulta paciente");
+		System.out.println("5 - Consulta agendamento");
+
 	}
 
 	public static void main(String[] args) throws ParseException {
@@ -26,6 +31,9 @@ public class Main {
 			escolha = sc.nextInt();
 
 			switch (escolha) {
+			case 0 -> {
+				escolha = 0;
+			}
 			case 1 -> {
 				System.out.print("Nome completo: ");
 				sc.nextLine();
@@ -33,22 +41,20 @@ public class Main {
 				System.out.print("Telefone:");
 				String telefone = sc.next();
 				if (l.verificaCadastroDuplicado(LitsaTelefone, telefone) == false) {
-					System.out.println("Paciente já cadastado!");
-					return;
+					System.out.println("Paciente já cadastrado!");
+					System.out.println();
+					break;
 				} else {
 					LitsaTelefone.add(telefone);
 				}
-				System.out.print("Especialidade:");
-				String especialidade = sc.next();
-				Paciente p = new Paciente(nome, telefone, especialidade);
+				Paciente p = new Paciente(nome, telefone);
 				l.cadastroPaciente(p);
 
 			}
 			case 2 -> l.agendamento();
-			case 3 -> {
-				l.cancelaAgendamento();
-				l.mostraAgendamento();
-			}
+			case 3 -> l.cancelaAgendamento();	
+			case 4 -> l.mostraPaciente();
+			case 5 -> l.mostraAgendamento();
 
 			}
 
