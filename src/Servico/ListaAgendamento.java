@@ -1,11 +1,12 @@
 package Servico;
 
-import java.io.BufferedReader;
+/*import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+*/
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,7 +28,6 @@ public class ListaAgendamento {
 	Map<Integer, Paciente> listaPaciente = new TreeMap<Integer, Paciente>();
 	ListaAgendamento agendamento;
 	Map<Integer, ListaAgendamento> listaAgendamento = new TreeMap<Integer, ListaAgendamento>();
-	ArrayList<ListaAgendamento> listaAgend = new ArrayList<>();
 
 	public ListaAgendamento() {
 	}
@@ -45,7 +45,6 @@ public class ListaAgendamento {
 			}
 		}
 		return true;
-
 	}
 
 	public void cadastroPaciente(Paciente p) {
@@ -104,7 +103,6 @@ public class ListaAgendamento {
 						agendamento = new ListaAgendamento(listaPaciente.get(escolha), dataAgendamento, especialidade);
 						listaAgendamento.put(chaveAgendamento, agendamento);
 						chaveAgendamento++;
-						listaAgend.add(agendamento);
 						System.out.println("Consulta agendada com sucesso!");
 
 					}
@@ -117,7 +115,7 @@ public class ListaAgendamento {
 
 	public void mostraAgendamento() {
 		if (listaAgendamento.isEmpty()) {
-			System.out.println("Lista de agendamento vazia!");
+			System.err.println("Lista de agendamento vazia!");
 
 		} else {
 			for (Integer key : listaPaciente.keySet()) {
@@ -135,7 +133,7 @@ public class ListaAgendamento {
 	public void cancelaAgendamento() {
 
 		if (listaAgendamento.isEmpty()) {
-			System.out.println("Não há pacientes agendados!");
+			System.err.println("Não há pacientes agendados!");
 		} else {
 			mostraAgendamento();
 			System.out.println("Escolha o numero do paciente para cancelar o agendamento");
@@ -147,7 +145,7 @@ public class ListaAgendamento {
 					return;
 				}
 			}
-			System.out.println("Não há numero de agendamento com o qual foi especificado!");
+			System.err.println("Não há numero de agendamento com o qual foi especificado!");
 		}
 	}
 
